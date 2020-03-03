@@ -451,6 +451,43 @@ redmine_configure_fetch_commits() {
   esac
 }
 
+redmine_configure_reminders_schedule() {
+  case ${REDMINE_REMINDERS_SCHEDULE} in
+    daily|weekly|monthly|business-day)
+      crontab -u ${REDMINE_USER} -l >/tmp/cron.${REDMINE_USER}
+      if ! grep -q 'redmine:send_reminders' /tmp/cron.${REDMINE_USER}; then
+        echo "Configuring redmine::send_reminders::schedule..."
+        read hour min <<< ${REDMINE_REMINDERS_TIME//[:]/ }
+        day_of_month=*
+        month=*
+        day_of_week=*
+        case ${REDMINE_REMINDERS_SCHEDULE} in
+          daily) ;;
+          weekly) day_of_week=0 ;;
+          monthly) day_of_month=01 ;;
+          business-day) day_of_week=1-5 ;;
+        esac
+        opts="days=${REDMINE_REMINDERS_DAYS}"
+        if [[ -v REDMINE_REMINDERS_TRACKER ]]; then
+          opts="$opts tracker=${REDMINE_REMINDERS_TRACKER}"
+        fi
+        if [[ -v REDMINE_REMINDERS_PROJECT ]]; then
+          opts="$opts project=${REDMINE_REMINDERS_PROJECT}"
+        fi
+        if [[ -v REDMINE_REMINDERS_USERS ]]; then
+          opts="$opts users=\"${REDMINE_REMINDERS_USERS}\""
+        fi
+        if [[ -v REDMINE_REMINDERS_VERSION ]]; then
+          opts="$opts version=${REDMINE_REMINDERS_VERSION}"
+        fi
+        echo "$min $hour $day_of_month $month $day_of_week cd ${RREDMINE_INSTALL_DIR} && bundle exec rake redmine:send_reminders $opts RAILS_ENV=production >> ${REDMINE_LOG_DIR}/redmine/reminders.log 2>&1" >> /tmp/cron.${REDMINE_USER}
+        crontab -u ${REDMINE_USER} /tmp/cron.${REDMINE_USER}
+      fi
+      rm -rf /tmp/cron.${REDMINE_USER}
+      ;;
+  esac
+}
+
 redmine_configure_backups_schedule() {
   case ${REDMINE_BACKUP_SCHEDULE} in
     daily|weekly|monthly)
@@ -472,6 +509,12 @@ redmine_configure_backups_schedule() {
       rm -rf /tmp/cron.${REDMINE_USER}
       ;;
   esac
+}
+
+redmine_configure_reminders() {
+  echo "Configuring redmine::reminders..."
+
+  redmine_configure_reminders_schedule
 }
 
 redmine_configure_backups() {
@@ -803,6 +846,7 @@ configure_redmine() {
   redmine_configure_email_delivery
   redmine_configure_incoming_email
   redmine_configure_fetch_commits
+  redmine_configure_reminders
   redmine_configure_backups
 
   # configure secure-cookie if using SSL/TLS
