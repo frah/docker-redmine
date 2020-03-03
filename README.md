@@ -596,6 +596,13 @@ Below is the complete list of parameters that can be set using environment varia
 - **REDMINE_AUTOLOGIN_COOKIE_NAME**: The name of autologin-cookie. Defaults to `autologin`.
 - **REDMINE_AUTOLOGIN_COOKIE_PATH**: The path of autologin-cookie. Defaults to `/`.
 - **REDMINE_AUTOLOGIN_COOKIE_SECURE**: Set autologin-cookie to secure. Defaults to `true` when `REDMINE_HTTPS` is `true`, else defaults to `false`.
+- **REDMINE_REMINDERS_SCHEDULE**: Setup cron job to schedule automatic reminders. Possible values `disable`, `daily`, `business-day`, `weekly` or `monthly`. Disabled by default
+- **REDMINE_REMINDERS_TIME**: Set a time for the automatic reminders in `HH:MM` format.
+- **REDMINE_REMINDERS_DAYS**: Set a number of days to remind about. Defaults to `7` days.
+- **REDMINE_REMINDERS_TRACKER**: Set a id of tracer to remind about. Defaults to all trackers.
+- **REDMINE_REMINDERS_PROJECT**: Set a id or identifier of project to remind about. Defaults to all projects.
+- **REDMINE_REMINDERS_USERS**: Set comma separated list of user ids who should be reminded. Defaults to all users.
+- **REDMINE_REMINDERS_VERSION**: Set a name of target version to remind about. Defaults to all versions.
 - **REDMINE_BACKUPS_DIR**: The backup folder in the container. Defaults to `/home/redmine/data/backups`
 - **REDMINE_BACKUP_SCHEDULE**: Setup cron job to schedule automatic backups. Possible values `disable`, `daily`, `weekly` or `monthly`. Disabled by default
 - **REDMINE_BACKUP_EXPIRY**: Configure how long (in seconds) to keep backups before they are deleted. By default when automated backups are disabled backups are kept forever (0 seconds), else the backups expire in 7 days (604800 seconds).
