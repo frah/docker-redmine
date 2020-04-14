@@ -597,7 +597,7 @@ Below is the complete list of parameters that can be set using environment varia
 - **REDMINE_AUTOLOGIN_COOKIE_PATH**: The path of autologin-cookie. Defaults to `/`.
 - **REDMINE_AUTOLOGIN_COOKIE_SECURE**: Set autologin-cookie to secure. Defaults to `true` when `REDMINE_HTTPS` is `true`, else defaults to `false`.
 - **REDMINE_REMINDERS_SCHEDULE**: Setup cron job to schedule automatic reminders. Possible values `disable`, `daily`, `business-day`, `weekly` or `monthly`. Disabled by default
-- **REDMINE_REMINDERS_TIME**: Set a time for the automatic reminders in `HH:MM` format.
+- **REDMINE_REMINDERS_TIME**: Set a time for the automatic reminders in `HH:MM` format. Defaults to `07:00`.
 - **REDMINE_REMINDERS_DAYS**: Set a number of days to remind about. Defaults to `7` days.
 - **REDMINE_REMINDERS_TRACKER**: Set a id of tracer to remind about. Defaults to all trackers.
 - **REDMINE_REMINDERS_PROJECT**: Set a id or identifier of project to remind about. Defaults to all projects.
