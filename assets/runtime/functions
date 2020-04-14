@@ -480,7 +480,7 @@ redmine_configure_reminders_schedule() {
         if [[ -v REDMINE_REMINDERS_VERSION ]]; then
           opts="$opts version=${REDMINE_REMINDERS_VERSION}"
         fi
-        echo "$min $hour $day_of_month $month $day_of_week cd ${RREDMINE_INSTALL_DIR} && bundle exec rake redmine:send_reminders $opts RAILS_ENV=production >> ${REDMINE_LOG_DIR}/redmine/reminders.log 2>&1" >> /tmp/cron.${REDMINE_USER}
+        echo "$min $hour $day_of_month $month $day_of_week cd ${REDMINE_INSTALL_DIR} && bundle exec rake redmine:send_reminders $opts RAILS_ENV=production >> ${REDMINE_LOG_DIR}/redmine/reminders.log 2>&1" >> /tmp/cron.${REDMINE_USER}
         crontab -u ${REDMINE_USER} /tmp/cron.${REDMINE_USER}
       fi
       rm -rf /tmp/cron.${REDMINE_USER}
